@@ -1,0 +1,136 @@
+[
+  {
+    "id": "JOB-001",
+    "job_title": "Senior Backend Engineer",
+    "department": "Engineering",
+    "location": {
+      "city": "Lisbon",
+      "work_type": "Hybrid"
+    },
+    "employment_type": "Full-time",
+    "salary_range": {
+      "min": "60000",
+      "max": "80000",
+      "currency": "EUR"
+    },
+    "job_summary": "We are seeking an experienced Senior Backend Engineer to join our dynamic engineering team. As a Senior Backend Engineer, you will be responsible for designing, developing, and maintaining high-performance backend systems and APIs. You will play a key role in building scalable and secure solutions using modern technologies.",
+    "key_responsibilities": [
+      "Design, develop, and maintain backend services and APIs.",
+      "Collaborate with cross-functional teams to ensure high-quality product delivery.",
+      "Build and maintain scalable, high-availability systems.",
+      "Optimize backend performance and troubleshoot issues.",
+      "Mentor junior engineers and contribute to technical documentation."
+    ],
+    "required_skills": [
+      "Proven experience in backend development with expertise in Java, Node.js, or Python.",
+      "Experience with cloud platforms like AWS, GCP, or Azure.",
+      "Strong understanding of RESTful API design and microservices architecture.",
+      "Proficiency in databases (SQL and NoSQL).",
+      "Experience with CI/CD pipelines and version control systems like Git."
+    ],
+    "required_skills_keywords": [
+      "Java",
+      "Node.js",
+      "Python",
+      "AWS",
+      "Microservices",
+      "CI/CD"
+    ],
+    "preferred_skills": [
+      "Experience with containerization (Docker, Kubernetes).",
+      "Familiarity with GraphQL and serverless architectures.",
+      "Knowledge of event-driven systems and message queues (Kafka, RabbitMQ)."
+    ],
+    "preferred_skills_keywords": [
+      "Docker",
+      "Kubernetes",
+      "GraphQL",
+      "Serverless",
+      "Kafka"
+    ],
+    "soft_skills": [
+      "Strong communication skills and ability to collaborate with cross-functional teams.",
+      "Problem-solving mindset and ability to troubleshoot complex issues.",
+      "Self-motivated and proactive in learning new technologies."
+    ],
+    "soft_skills_keywords": [
+      "Communication",
+      "Problem-solving",
+      "Self-motivation"
+    ],
+    "company_values_and_culture": {
+      "collaboration": "We encourage collaboration across teams to drive innovation and deliver high-quality products.",
+      "ownership": "We trust our engineers to take full ownership of their projects from start to finish.",
+      "diversity_and_inclusion": "We are committed to creating a diverse and inclusive work environment where everyone can thrive.",
+      "continuous_improvement": "We foster a culture of continuous learning and improvement, encouraging feedback and growth.",
+      "transparency": "We maintain open and transparent communication, ensuring everyone is aligned on goals and challenges."
+    },
+    "application_encouragement": "We encourage applicants from all backgrounds to apply, even if you don't meet every requirement. If you have a passion for backend engineering and thrive in a collaborative environment, we’d love to hear from you.",
+    "status": "Open",
+    "created_at": "2025-11-01"
+  },
+
+  {
+    "id": "JOB-002",
+    "job_title": "Product Manager",
+    "department": "Product",
+    "location": {
+      "city": "Remote",
+      "work_type": "Remote"
+    },
+    "employment_type": "Full-time",
+    "salary_range": {
+      "min": "80000",
+      "max": "100000",
+      "currency": "EUR"
+    },
+    "job_summary": "We are looking for a proactive and innovative Product Manager to lead the development of new product features and improvements. In this role, you will work closely with cross-functional teams including engineering, design, and marketing to create exceptional products that delight our customers. You will be the driving force behind product strategy, roadmap, and execution.",
+    "key_responsibilities": [
+      "Define and prioritize product features based on business goals, customer needs, and technical feasibility.",
+      "Work with engineering and design teams to deliver high-quality product releases on time.",
+      "Gather and analyze customer feedback to inform product decisions and improvements.",
+      "Collaborate with marketing and sales teams to ensure successful product launches.",
+      "Monitor key product metrics and iterate on features to drive user engagement and satisfaction."
+    ],
+    "required_skills": [
+      "Proven experience as a Product Manager in a fast-paced environment.",
+      "Strong understanding of the product development lifecycle from ideation to delivery.",
+      "Excellent communication and leadership skills, with the ability to influence cross-functional teams.",
+      "Experience with Agile development methodologies.",
+      "Ability to analyze market trends and customer feedback to drive product strategy."
+    ],
+    "required_skills_keywords": [
+      "Product Management",
+      "Agile",
+      "Leadership",
+      "Market Analysis",
+      "Customer Feedback"
+    ],
+    "preferred_skills": [
+      "Experience with SaaS products and cloud technologies.",
+      "Familiarity with A/B testing and user research methods.",
+      "Knowledge of UX/UI design principles."
+    ],
+    "preferred_skills_keywords": ["SaaS", "A/B Testing", "UX/UI", "Cloud"],
+    "soft_skills": [
+      "Strong problem-solving skills and attention to detail.",
+      "Ability to work in a collaborative and fast-moving environment.",
+      "Adaptability and comfort with ambiguity and change."
+    ],
+    "soft_skills_keywords": [
+      "Problem-solving",
+      "Collaboration",
+      "Adaptability"
+    ],
+    "company_values_and_culture": {
+      "collaboration": "We value teamwork and believe in the power of diverse perspectives to drive innovation.",
+      "ownership": "We take responsibility for our work and strive for excellence in everything we do.",
+      "diversity_and_inclusion": "We are committed to fostering an inclusive and welcoming environment for all employees.",
+      "continuous_improvement": "We believe in continuous learning, growth, and adapting to changing needs in the market.",
+      "transparency": "We are open and transparent about our goals, challenges, and progress towards achieving them."
+    },
+    "application_encouragement": "If you're passionate about product management and excited about building products that make a difference, we encourage you to apply, even if you don't meet every single requirement. We value curiosity and a willingness to learn.",
+    "status": "Open",
+    "created_at": "2025-11-10"
+  }
+]

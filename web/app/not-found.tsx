@@ -24,7 +24,7 @@ export default function NotFoundPage() {
           </Button>
         </Link>
 
-        <Link href="/jobs">
+        <Link href="/job-offer">
           <Button className="flex items-center gap-2 bg-(--color-primary) hover:bg-primary-hover transition-colors">
             <TrendingUp className="h-4 w-4" />
             View Jobs

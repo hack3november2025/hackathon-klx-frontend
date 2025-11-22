@@ -1,5 +1,7 @@
+"use client";
+
 import { Briefcase, UserCheck } from "lucide-react";
-import { mockCandidates, mockJob } from "../../../mocks";
+import { mockCandidates } from "../../../mocks";
 import {
   Badge,
   Card,
@@ -7,11 +9,50 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui";
-import { CandidateCard } from "@/components/shared";
+import { CandidateCard, LoadingSpinner } from "@/components/shared";
+import React, { useEffect } from "react";
+import { useJobOffer } from "@/modules/job-offer/hooks/useJobOffer";
+import { useRouter } from "next/navigation";
 
-export default function JobDetailPage({ params }: { params: { id: string } }) {
-  // Em produção, buscar a vaga (mockJob) e os candidatos (mockCandidates) usando params.id
-  const job = mockJob;
+export default function JobDetailPage({
+  params,
+}: {
+  params: { id?: string | Promise<string | undefined> };
+}) {
+  let id: string | undefined;
+  if (params !== undefined) {
+    const maybePromise = params as any;
+    if (maybePromise && typeof maybePromise.then === "function") {
+      const resolved = React.use(maybePromise) as { id?: string } | undefined;
+      id = resolved?.id;
+    } else {
+      id = (params as any).id;
+    }
+  }
+
+  const { handleGeJobOffers, jobOffers } = useJobOffer();
+  const router = useRouter();
+
+  const job = jobOffers.find((j) => j.id === id);
+
+  useEffect(() => {
+    handleGeJobOffers({ props: {} });
+  }, [handleGeJobOffers]);
+
+  useEffect(() => {
+    if (!id) {
+      router.replace("/jobs");
+      return;
+    }
+    if (jobOffers.length > 0 && !job) {
+      router.replace("/jobs");
+    }
+  }, [id, jobOffers, job, router]);
+
+  if (!job) {
+    return <LoadingSpinner />;
+  }
+
   const candidates = mockCandidates.sort((a, b) => b.fit_score - a.fit_score);
 
   return (

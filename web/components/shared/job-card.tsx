@@ -17,7 +17,7 @@ function JobCard({ job }: { job: StoredJobOffer }) {
         <p className="text-xs text-muted-foreground mt-1">
           {job.location.city} ({job.employment_type})
         </p>
-        <Link href={`/jobs/${job.id}`}>
+        <Link href={`/job-offer/${job.id}`}>
           <Button variant="link" className="p-0 h-auto mt-2 text-xs">
             View Details <ArrowRight className="ml-1 h-3 w-3" />
           </Button>

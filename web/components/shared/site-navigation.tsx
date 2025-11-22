@@ -10,8 +10,8 @@ import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuL
 const pages = [
   { title: "Home", href: "/", icon: Home },
   { title: "Dashboard", href: "/dashboard", icon: Grid },
-  { title: "Create Offer", href: "/job-offer", icon: Briefcase },
-  { title: "Jobs", href: "/jobs", icon: FileText },
+  { title: "Create Offer", href: "/job-offer/generator", icon: Briefcase },
+  { title: "Jobs", href: "/job-offer", icon: FileText },
 ];
 
 function SiteNavigation() {

@@ -18,7 +18,7 @@ export default function DashboardPage() {
   const openJobsContent = useMemo(() => {
     return (
       <div>
-        <div className="text-2xl font-bold text-blue-600">
+        <div className="text-2xl font-bold text-primary">
           {data.metrics.total_open_jobs}
         </div>
         <p className="text-xs text-muted-foreground">Active Roles</p>

@@ -1,6 +1,7 @@
 export * from "./candidate-card";
 export * from "./card-component";
 export * from "./job-card";
+export * from "./loading";
 export * from "./logo";
 export * from "./metric-card";
 export * from "./navigation-card";
