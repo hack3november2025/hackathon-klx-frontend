@@ -9,7 +9,7 @@ import {
   Edit,
   Send,
 } from "lucide-react";
-import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 // Componentes UI
 import {
@@ -37,21 +37,25 @@ import {
   Textarea,
 } from "@/src/components/ui";
 
-// Componente de Layout Padro
-// Mock Data (Assumindo que este mock existe em "@/src/mocks" como na sua importao)
 import { mockGeneratedJobOffer } from "@/src/mocks";
 import { PageCreate } from "@/src/components";
+import CreateJobOfferForm from "./components/create-job-offer-form";
+import { toast } from "sonner";
+
+const API_URL = "http://10.208.1.7:8000/generate-job-offer";
 
 function JobOfferDisplay({
   jobOffer,
   onEdit,
   onRegenerate,
   onAccept,
+  jobOfferId,
 }: {
   jobOffer: GeneratedJobOffer;
   onEdit: () => void;
   onRegenerate: () => void;
   onAccept: () => void;
+  jobOfferId?: string | null;
 }) {
   return (
     <Card className="mt-8 shadow-xl">
@@ -60,6 +64,9 @@ function JobOfferDisplay({
           <CardTitle className="text-3xl font-bold text-blue-700">
             {jobOffer.job_title}
           </CardTitle>
+          {jobOfferId && (
+            <p className="text-sm text-gray-500">Offer ID: {jobOfferId}</p>
+          )}
           <p className="text-sm text-gray-500">
             {jobOffer.department} | {jobOffer.location.city} (
             {jobOffer.employment_type})
@@ -181,6 +188,7 @@ function JobOfferDisplay({
 export default function JobOfferCreationPage() {
   const [generatedOffer, setGeneratedOffer] =
     useState<GeneratedJobOffer | null>(null);
+  const [jobOfferId, setJobOfferId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   // Criando o form hook
@@ -200,27 +208,52 @@ export default function JobOfferCreationPage() {
   const generateJobOffer: SubmitHandler<JobOfferRequest> = async (data) => {
     setIsLoading(true);
     setGeneratedOffer(null);
+    setJobOfferId(null);
 
-    // TODO: Substituir por chamada real ao backend Python (ex: fetch('/api/generate-job-offer', { method: 'POST', body: JSON.stringify(data) }))
+    try {
+      console.log("Sending request to AI:", data);
 
-    // Simulação de atraso de IA
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    console.log("Request sent to AI:", data);
+      if (!response.ok) {
+        toast(`API returned status ${response.status}: ${response.statusText}`);
+        throw new Error(
+          `API returned status ${response.status}: ${response.statusText}`
+        );
+      }
 
-    // Simulação de recebimento da resposta
-    setGeneratedOffer(mockGeneratedJobOffer);
-    setIsLoading(false);
+      const result = await response.json();
+
+      // Support both flat GeneratedJobOffer and wrapped { job_offer_id, job_offer }
+      if (result && result.job_offer) {
+        setGeneratedOffer(result.job_offer as GeneratedJobOffer);
+        setJobOfferId(result.job_offer_id ?? null);
+      } else {
+        setGeneratedOffer(result as GeneratedJobOffer);
+        setJobOfferId(null);
+      }
+
+      toast.success("Job offer generated successfully.");
+    } catch (error) {
+      console.error("Error generating job offer:", error);
+      toast.error(`Error generating job offer : ${(error as Error).message}`);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleAccept = () => {
     if (generatedOffer) {
       // TODO: Aqui você faria a chamada para salvar a vaga no backend e redirecionar
-      console.log(
-        "Job Offer Accepted and Saved (Simulated). Redirecting to job detail page..."
-      );
-      // Ex: router.push(`/jobs/${jobId}`);
-      alert(`Job Offer: "${generatedOffer.job_title}" accepted!`); // Usando alert apenas no mock
+
+      toast.warning(`Job Offer: "${generatedOffer.job_title}" accepted!`);
+      toast.warning("Simulating Job Offer acceptance...");
     }
   };
 
@@ -230,140 +263,12 @@ export default function JobOfferCreationPage() {
       description="Enter a brief description to generate a complete, structured job posting."
       icon={ClipboardList}
     >
-      {/* Input Form Section (Always visible) */}
-      <Card>
-        <CardHeader>
-          <CardTitle>1. Define the Role</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {/* Envolvendo o formulário com FormProvider */}
-          <FormProvider {...form}>
-            <form
-              onSubmit={form.handleSubmit(generateJobOffer)}
-              className="space-y-4"
-            >
-              <FormField
-                control={form.control}
-                name="summary"
-                rules={{ required: "A summary is required." }}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Role Summary (Required)</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="E.g., Senior Python developer for data processing pipelines..."
-                        {...field}
-                        rows={4}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <FormField
-                  control={form.control}
-                  name="tone"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tone Preference</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select tone" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="inclusive">Inclusive</SelectItem>
-                          <SelectItem value="formal">Formal</SelectItem>
-                          <SelectItem value="friendly">Friendly</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="department"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Department (Optional)</FormLabel>
-                      <FormControl>
-                        <Input placeholder="E.g., Engineering" {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="location"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Location (Optional)</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="E.g., Lisbon or Remote"
-                          {...field}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="employment_type"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Employment Type (Optional)</FormLabel>
-                      <FormControl>
-                        <Input placeholder="E.g., Full-time" {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="salary_range"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Salary Range (Optional)</FormLabel>
-                      <FormControl>
-                        <Input placeholder="E.g., 60000-80000 EUR" {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
+      <CreateJobOfferForm
+        form={form}
+        onSubmit={generateJobOffer}
+        isLoading={isLoading}
+      />
 
-              <Button
-                type="submit"
-                disabled={isLoading}
-                className="mt-4 w-full md:w-auto"
-              >
-                {isLoading ? (
-                  <>
-                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                    Generating Offer...
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4 mr-2" />
-                    Generate Offer Draft
-                  </>
-                )}
-              </Button>
-            </form>
-          </FormProvider>
-        </CardContent>
-      </Card>
-
-      {/* Output Display Section */}
       {generatedOffer && (
         <div className="mt-12">
           <h2 className="text-2xl font-semibold mb-4">
@@ -372,10 +277,11 @@ export default function JobOfferCreationPage() {
           <JobOfferDisplay
             jobOffer={generatedOffer}
             onEdit={() =>
-              alert("Simulating Edit mode / Editing the raw text...")
+              toast.warning("Simulating Edit mode / Editing the raw text...")
             }
             onRegenerate={form.handleSubmit(generateJobOffer)}
             onAccept={() => handleAccept()}
+            jobOfferId={jobOfferId}
           />
         </div>
       )}
