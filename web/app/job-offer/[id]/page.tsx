@@ -1,4 +1,3 @@
-// /home/hack3-vl03-user/KLx/hackathon-klx-frontend/web/app/job-offer/[id]/page.tsx
 "use client";
 
 import { Briefcase, UserCheck } from "lucide-react";
@@ -23,23 +22,17 @@ export default function JobDetailPage() {
   const { handleGeJobOffers, jobOffers, loading } = useJobOffer();
   const router = useRouter();
 
-  // DERIVAO CORRETA: Encontra a vaga no estado do hook.
-  // Isso re-executa em toda atualizao de jobOffers.
   const job = React.useMemo(() => {
-    // Busca por 'id' e 'id' (para cobrir mocks e a nova tipagem _id)
     return jobOffers.find((j) => j._id === jobID || j._id === jobID);
   }, [jobOffers, jobID]);
 
-  // Efeito para carregar as vagas se a lista estiver vazia
   useEffect(() => {
     if (jobOffers.length === 0 && !loading) {
       handleGeJobOffers();
     }
   }, [handleGeJobOffers, jobOffers.length, loading]);
 
-  // Efeito para redirecionar se o ID for invlido ou no encontrado aps o carregamento
   useEffect(() => {
-    // Se no estiver carregando, a lista de vagas tiver sido populada e o 'job' for undefined, redireciona.
     if (!loading && jobOffers.length > 0 && !job) {
       router.replace("/job-offer");
     }

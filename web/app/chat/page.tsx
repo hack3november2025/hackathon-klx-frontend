@@ -45,7 +45,6 @@ export default function ChatPage() {
       description="Query your candidate database using natural language and receive an AI-generated match summary."
       icon={MessageSquare}
     >
-      {/* Input Form Section */}
       <Card>
         <CardHeader>
           <CardTitle>1. Enter your Query</CardTitle>
@@ -94,7 +93,6 @@ export default function ChatPage() {
         </CardContent>
       </Card>
 
-      {/* Loading State */}
       {loading && (
         <LoadingSpinner
           text="Vectorizing query and generating AI summary..."
@@ -104,12 +102,10 @@ export default function ChatPage() {
         />
       )}
 
-      {/* Output Display Section */}
       {answer && answer.answer && !loading && (
         <div className="mt-12 space-y-6">
           <h2 className="text-2xl font-semibold">2. Analysis Results</h2>
 
-          {/* Display Top CV IDs (Métricas de Similaridade) */}
           <Card>
             <CardHeader>
               <CardTitle className="text-xl">Top Similarity Matches</CardTitle>

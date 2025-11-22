@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ClipboardList } from "lucide-react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import { GeneratedJobOffer, JobOfferRequest } from "@/types";
 

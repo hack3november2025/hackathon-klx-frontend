@@ -1,15 +1,9 @@
 "use client";
 
-import React from "react";
 import { SubmitHandler, UseFormReturn, FormProvider } from "react-hook-form";
 import { RefreshCw, Send } from "lucide-react";
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Button,
   FormControl,

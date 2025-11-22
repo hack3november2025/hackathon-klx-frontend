@@ -23,8 +23,7 @@ export default function HomePage() {
             AI-Powered Talent Matching
           </h1>
           <p className="mt-4 text-xl text-(--color-muted-foreground) max-w-3xl mx-auto">
-            Simplifique o Recrutamento com Geração de Vagas via IA e Avaliação
-            de Candidatos em tempo real.
+            Simplify Recruitment with AI-Powered Job Creation and Real-Time Candidate Assessment.
           </p>
           <Link href="/dashboard">
             <Button className="mt-6 bg-(--color-primary) hover:bg-primary-hover transition-colors text-lg py-6 px-8 rounded-lg shadow-lg">

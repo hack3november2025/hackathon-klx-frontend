@@ -57,8 +57,6 @@ export default function DashboardPage() {
 
   const createNewJobContent = useMemo(() => {
     return (
-      // Nota: Mantive a CardDescription com a cor azul-100 para o link, o que funciona bem
-      // com a estilização de CardComponent.
       <div className="flex flex-col items-center justify-center h-full p-6">
         <PlusCircle className="h-6 w-6 mb-2" />
         <CardDescription className="text-primary">

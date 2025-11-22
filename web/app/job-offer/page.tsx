@@ -1,4 +1,3 @@
-// /home/hack3-vl03-user/KLx/hackathon-klx-frontend/web/app/job-offer/page.tsx
 "use client";
 
 import { PageCreate } from "@/components/shared/page-create";
@@ -24,7 +23,7 @@ export default function JobsListPage() {
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {jobOffers && jobOffers.length > 0 ? (
-            jobOffers.map((job, index) => <JobCard key={job._id} job={job} />)
+            jobOffers.map((job) => <JobCard key={job._id} job={job} />)
           ) : (
             <p className="text-xl text-center p-8 w-full col-span-full text-(--color-muted-foreground)">
               No job offers are currently open. Use the "Create Offer" link to
