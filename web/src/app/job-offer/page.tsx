@@ -1,3 +1,4 @@
+// /home/hack3-vl03-user/KLx/hackathon-klx-frontend/web/src/app/job-offer/page.tsx
 "use client";
 
 import { useState, useMemo } from "react";
@@ -8,9 +9,9 @@ import {
   Edit,
   Send,
 } from "lucide-react";
-import { useForm, SubmitHandler, Form } from "react-hook-form";
+import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 
-// Componentes ShadCN UI
+// Componentes UI
 import {
   Card,
   CardContent,
@@ -36,52 +37,10 @@ import {
   Textarea,
 } from "@/src/components/ui";
 
-// --- Mock Data: Simula a resposta do Backend Python ---
-const mockGeneratedJobOffer: GeneratedJobOffer = {
-  job_title: "Senior Backend Developer (Java & AWS)",
-  department: "Engineering",
-  location: { city: "Lisbon", work_type: "Hybrid" },
-  employment_type: "Full-time",
-  salary_range: { min: "60000", max: "80000", currency: "EUR" },
-  job_summary:
-    "We are seeking a Senior Backend Developer with strong Java and AWS experience to design, build, and maintain scalable, secure, and high-performance backend services. You will work closely with cross-functional teams to deliver robust APIs, integrate with cloud-native services, and drive technical decisions that shape our platform architecture.",
-  key_responsibilities: [
-    "Design, develop, and maintain backend services and RESTful APIs using Java and AWS.",
-    "Architect and optimize scalable, secure, and high-availability cloud solutions in AWS.",
-    "Collaborate with product, frontend, and DevOps teams to deliver end-to-end features from concept to production.",
-    "Mentor junior engineers and contribute to technical documentation.",
-  ],
-  required_skills: [
-    "Strong hands-on experience with Java for backend development.",
-    "Practical experience designing, deploying, and operating applications on AWS.",
-    "Proficiency in RESTful API design and implementation.",
-  ],
-  required_skills_keywords: ["Java", "AWS", "REST"],
-  preferred_skills: [
-    "Experience with microservices architectures and containerization (Docker, Kubernetes).",
-    "Experience with relational and NoSQL databases, performance tuning, and monitoring tools.",
-  ],
-  preferred_skills_keywords: ["Microservices", "Docker", "Kubernetes"],
-  soft_skills: [
-    "Excellent communication and collaboration skills in cross-functional teams.",
-    "Strong sense of ownership, problem-solving abilities, and proactive attitude.",
-  ],
-  soft_skills_keywords: ["Collaboration", "Ownership"],
-  company_values_and_culture: {
-    collaboration:
-      "We work in cross-functional, supportive teams where everyones input is valued and knowledge-sharing is encouraged.",
-    ownership:
-      "We trust our engineers to take end-to-end responsibility for their services, from design to production support.",
-    diversity_and_inclusion:
-      "We are committed to building an inclusive environment where people from all backgrounds can thrive and feel respected.",
-    continuous_improvement:
-      "We promote learning, experimentation, and regular feedback to continually improve our product, processes, and ourselves.",
-    transparency:
-      "We communicate openly about goals, decisions, and challenges so everyone understands how their work contributes to our mission.",
-  },
-  application_encouragement:
-    "We encourage you to apply even if you dont meet every requirement. If you are excited about backend development with Java and AWS and are eager to learn and grow, wed love to hear from you.",
-};
+// Componente de Layout Padro
+// Mock Data (Assumindo que este mock existe em "@/src/mocks" como na sua importao)
+import { mockGeneratedJobOffer } from "@/src/mocks";
+import { PageCreate } from "@/src/components";
 
 function JobOfferDisplay({
   jobOffer,
@@ -223,6 +182,8 @@ export default function JobOfferCreationPage() {
   const [generatedOffer, setGeneratedOffer] =
     useState<GeneratedJobOffer | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Criando o form hook
   const form = useForm<JobOfferRequest>({
     defaultValues: {
       summary:
@@ -235,26 +196,26 @@ export default function JobOfferCreationPage() {
     },
   });
 
-  // Fun��o para simular a chamada da API (o seu backend Python)
+  // Função para simular a chamada de backend
   const generateJobOffer: SubmitHandler<JobOfferRequest> = async (data) => {
     setIsLoading(true);
     setGeneratedOffer(null);
 
     // TODO: Substituir por chamada real ao backend Python (ex: fetch('/api/generate-job-offer', { method: 'POST', body: JSON.stringify(data) }))
 
-    // Simula��o de delay de IA
+    // Simulação de atraso de IA
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     console.log("Request sent to AI:", data);
 
-    // Simula��o de recebimento do JSON de resposta
+    // Simulação de recebimento da resposta
     setGeneratedOffer(mockGeneratedJobOffer);
     setIsLoading(false);
   };
 
   const handleAccept = () => {
     if (generatedOffer) {
-      // TODO: Aqui voc� faria a chamada para salvar a vaga no backend e redirecionar
+      // TODO: Aqui você faria a chamada para salvar a vaga no backend e redirecionar
       console.log(
         "Job Offer Accepted and Saved (Simulated). Redirecting to job detail page..."
       );
@@ -264,23 +225,19 @@ export default function JobOfferCreationPage() {
   };
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
-      <h1 className="text-4xl font-extrabold tracking-tight flex items-center">
-        <ClipboardList className="w-8 h-8 mr-3 text-blue-600" />
-        AI Job Offer Generator
-      </h1>
-      <p className="text-lg text-gray-500">
-        Enter a brief description to generate a complete, structured job
-        posting.
-      </p>
-
+    <PageCreate
+      title="AI Job Offer Generator"
+      description="Enter a brief description to generate a complete, structured job posting."
+      icon={ClipboardList}
+    >
       {/* Input Form Section (Always visible) */}
       <Card>
         <CardHeader>
           <CardTitle>1. Define the Role</CardTitle>
         </CardHeader>
         <CardContent>
-          <Form {...form}>
+          {/* Envolvendo o formulário com FormProvider */}
+          <FormProvider {...form}>
             <form
               onSubmit={form.handleSubmit(generateJobOffer)}
               className="space-y-4"
@@ -402,7 +359,7 @@ export default function JobOfferCreationPage() {
                 )}
               </Button>
             </form>
-          </Form>
+          </FormProvider>
         </CardContent>
       </Card>
 
@@ -417,11 +374,11 @@ export default function JobOfferCreationPage() {
             onEdit={() =>
               alert("Simulating Edit mode / Editing the raw text...")
             }
-            onRegenerate={form.handleSubmit(generateJobOffer)} // Reutiliza o mesmo formul�rio para regenerar
-            onAccept={handleAccept}
+            onRegenerate={form.handleSubmit(generateJobOffer)}
+            onAccept={() => handleAccept()}
           />
         </div>
       )}
-    </div>
+    </PageCreate>
   );
 }
