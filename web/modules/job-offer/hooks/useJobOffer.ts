@@ -9,6 +9,7 @@ import {
   getJobOffers,
   saveJobOffer,
 } from "../services/job-offer-service";
+import { HandleGeJobOffersType } from "./handleGeJobOffersType";
 
 type Handler<T, R = void> = {
   props: T;
@@ -18,6 +19,7 @@ type Handler<T, R = void> = {
 
 interface Properties {
   loading: boolean;
+  totalJobOffers: number;
   jobOffers: StoredJobOffer[];
 }
 
@@ -26,6 +28,7 @@ const JOB_OFFERS_STORAGE_KEY = "job-offers-list";
 export const useJobOffer = () => {
   const [properties, setProperties] = useState<Properties>({
     loading: false,
+    totalJobOffers: 0,
     jobOffers: [],
   });
 
@@ -38,44 +41,32 @@ export const useJobOffer = () => {
 
   const handleGeJobOffers = useCallback(
     async (
-      { onSuccess, onError }: Handler<{}, StoredJobOffer[]> = { props: {} }
+      { onSuccess, onError }: Handler<{}, HandleGeJobOffersType> = {
+        props: {},
+      }
     ) => {
       handleSetProperties({ loading: true });
 
       try {
-        const localData = localStorage.getItem(JOB_OFFERS_STORAGE_KEY);
-        if (localData) {
-          try {
-            const jobOffers = JSON.parse(localData);
-            handleSetProperties({ jobOffers });
-            if (onSuccess) onSuccess(jobOffers);
-
-            return;
-          } catch (err) {
-            console.warn(
-              "Corrupted localStorage job-offers; clearing key",
-              err
-            );
-            localStorage.removeItem(JOB_OFFERS_STORAGE_KEY);
-          }
-        }
-
         const data = await getJobOffers();
-        handleSetProperties({ jobOffers: data });
 
-        localStorage.setItem(JOB_OFFERS_STORAGE_KEY, JSON.stringify(data));
+        handleSetProperties({ jobOffers: data.job_offers });
+        handleSetProperties({ totalJobOffers: data.total });
 
         if (onSuccess) {
           onSuccess(data);
+          toast(`Job Offers successfully fetched`);
+
           return data;
         }
       } catch (error) {
         if (onError) {
           onError(error as Error);
+
           return;
         }
 
-        toast.error("Error listing Job Offers");
+        toast.error(`Error listing Job Offers: ${error}`);
       } finally {
         handleSetProperties({ loading: false });
       }
@@ -132,7 +123,9 @@ export const useJobOffer = () => {
       props,
       onSuccess,
       onError,
-    }: Handler<GeneratedJobOffer, StoredJobOffer>): Promise<StoredJobOffer | undefined> => {
+    }: Handler<GeneratedJobOffer, StoredJobOffer>): Promise<
+      StoredJobOffer | undefined
+    > => {
       handleSetProperties({ loading: true });
 
       try {
@@ -146,7 +139,9 @@ export const useJobOffer = () => {
           onSuccess(result);
         }
 
-        await handleGeJobOffers();
+        const data = await handleGeJobOffers();
+        handleSetProperties({ jobOffers: data?.job_offers });
+        handleSetProperties({ totalJobOffers: data?.total });
 
         return result;
       } catch (error) {

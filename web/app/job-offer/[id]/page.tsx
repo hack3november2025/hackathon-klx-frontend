@@ -1,3 +1,4 @@
+// /home/hack3-vl03-user/KLx/hackathon-klx-frontend/web/app/job-offer/[id]/page.tsx
 "use client";
 
 import { Briefcase, UserCheck } from "lucide-react";
@@ -12,48 +13,52 @@ import {
 import { CandidateCard, LoadingSpinner } from "@/components/shared";
 import React, { useEffect } from "react";
 import { useJobOffer } from "@/modules/job-offer/hooks/useJobOffer";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { Candidate, StoredJobOffer } from "@/types";
 
-export default function JobDetailPage({
-  params,
-}: {
-  params: { id?: string | Promise<string | undefined> };
-}) {
-  let id: string | undefined;
-  if (params !== undefined) {
-    const maybePromise = params as any;
-    if (maybePromise && typeof maybePromise.then === "function") {
-      const resolved = React.use(maybePromise) as { id?: string } | undefined;
-      id = resolved?.id;
-    } else {
-      id = (params as any).id;
-    }
-  }
+export default function JobDetailPage() {
+  const params = useParams<{ id: string }>();
+  const jobID = params.id;
 
-  const { handleGeJobOffers, jobOffers } = useJobOffer();
+  const { handleGeJobOffers, jobOffers, loading } = useJobOffer();
   const router = useRouter();
 
-  const job = jobOffers.find((j) => j.id === id);
+  // DERIVAO CORRETA: Encontra a vaga no estado do hook.
+  // Isso re-executa em toda atualizao de jobOffers.
+  const job = React.useMemo(() => {
+    // Busca por 'id' e 'id' (para cobrir mocks e a nova tipagem _id)
+    return jobOffers.find((j) => j._id === jobID || j._id === jobID);
+  }, [jobOffers, jobID]);
 
+  // Efeito para carregar as vagas se a lista estiver vazia
   useEffect(() => {
-    handleGeJobOffers({ props: {} });
-  }, [handleGeJobOffers]);
+    if (jobOffers.length === 0 && !loading) {
+      handleGeJobOffers();
+    }
+  }, [handleGeJobOffers, jobOffers.length, loading]);
 
+  // Efeito para redirecionar se o ID for invlido ou no encontrado aps o carregamento
   useEffect(() => {
-    if (!id) {
-      router.replace("/jobs");
-      return;
+    // Se no estiver carregando, a lista de vagas tiver sido populada e o 'job' for undefined, redireciona.
+    if (!loading && jobOffers.length > 0 && !job) {
+      router.replace("/job-offer");
     }
-    if (jobOffers.length > 0 && !job) {
-      router.replace("/jobs");
-    }
-  }, [id, jobOffers, job, router]);
+  }, [loading, jobOffers.length, job, router]);
 
-  if (!job) {
-    return <LoadingSpinner />;
+  if (loading || !job) {
+    return (
+      <LoadingSpinner
+        text={
+          jobID
+            ? `Loading Job Details for ID: ${jobID}...`
+            : "Loading Job Details..."
+        }
+      />
+    );
   }
 
-  const candidates = mockCandidates.sort((a, b) => b.fit_score - a.fit_score);
+  const candidates: Candidate[] = mockCandidates as Candidate[];
+  const displayCandidates = candidates;
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
@@ -71,7 +76,7 @@ export default function JobDetailPage({
         <CardHeader>
           <CardTitle className="text-2xl">Job Overview</CardTitle>
           <p className="text-sm text-(--color-muted-foreground)">
-            Posted on: {job.created_at} | ID: {job.id}
+            Posted on: {job.created_at} | ID: {job._id}
           </p>
         </CardHeader>
         <CardContent>
@@ -88,14 +93,14 @@ export default function JobDetailPage({
 
       <h2 className="text-3xl font-bold tracking-tight flex items-center pt-4">
         <UserCheck className="w-6 h-6 mr-2 text-(--success)" />
-        Top Candidates Match ({candidates.length} Found)
+        Top Candidates Match ({displayCandidates.length} Found)
       </h2>
       <p className="text-lg text-(--color-muted-foreground)">
         Candidates ranked by AI-generated Overall Candidate Fit Score (0-100%).
       </p>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        {candidates.map((candidate) => (
+        {displayCandidates.map((candidate) => (
           <CandidateCard key={candidate.id} candidate={candidate} />
         ))}
       </div>

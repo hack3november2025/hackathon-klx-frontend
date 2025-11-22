@@ -41,7 +41,7 @@ export interface GeneratedJobOffer {
 }
 
 export interface StoredJobOffer extends GeneratedJobOffer {
-  id: string;
+  _id: string;
   status: "Draft" | "Open" | "Closed";
   created_at: string;
 }

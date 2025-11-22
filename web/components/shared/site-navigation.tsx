@@ -3,15 +3,29 @@
 import React, { useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
-import { Home, Grid, Briefcase, FileText, Sun, Moon } from "lucide-react";
+import {
+  Home,
+  Grid,
+  Briefcase,
+  FileText,
+  Sun,
+  Moon,
+  MessageSquare,
+} from "lucide-react";
 import { Logo } from "./logo";
-import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "../ui";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from "../ui";
 
 const pages = [
   { title: "Home", href: "/", icon: Home },
   { title: "Dashboard", href: "/dashboard", icon: Grid },
   { title: "Create Offer", href: "/job-offer/generator", icon: Briefcase },
   { title: "Jobs", href: "/job-offer", icon: FileText },
+  { title: "AI Search", href: "/chat", icon: MessageSquare },
 ];
 
 function SiteNavigation() {

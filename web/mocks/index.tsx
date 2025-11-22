@@ -78,7 +78,7 @@ export const mockDashboardData: DashboardData = {
   },
   active_jobs: [
     {
-      id: "JOB-001",
+      _id: "JOB-001",
       job_title: "Senior Backend Engineer",
       department: "Engineering",
       location: {
@@ -155,7 +155,7 @@ export const mockDashboardData: DashboardData = {
       created_at: "2025-11-01",
     },
     {
-      id: "JOB-002",
+      _id: "JOB-002",
       job_title: "Product Manager",
       department: "Product",
       location: {

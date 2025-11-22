@@ -1,3 +1,5 @@
+"use client";
+
 import {
   LayoutDashboard,
   Users,
@@ -10,7 +12,8 @@ import { StoredJobOffer } from "@/types";
 import { mockDashboardData } from "@/mocks";
 import { useMemo } from "react";
 import { CardDescription } from "@/components/ui";
-import { CardComponent, JobCard, PageCreate } from "@/components/shared";
+import { CardComponent, PageCreate } from "@/components/shared";
+import JobCard from "@/components/shared/job-card";
 
 export default function DashboardPage() {
   const data = mockDashboardData;
@@ -103,7 +106,7 @@ export default function DashboardPage() {
         </h2>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {data.active_jobs.map((job: StoredJobOffer) => (
-            <JobCard key={job.id} job={job} />
+            <JobCard key={job._id} job={job} />
           ))}
         </div>
       </div>

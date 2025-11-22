@@ -56,7 +56,7 @@ export default function JobOfferCreationPage() {
     handleSaveJobOffer({
       props: generatedOffer,
       onSuccess: (response) => {
-        const jobID = response?.id;
+        const jobID = response?._id;
         setJobOfferId(jobID!);
         router.push(`/job-offer/${jobID}`);
       },

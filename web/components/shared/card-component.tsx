@@ -12,7 +12,7 @@ interface CardComponenProps {
   className?: string;
   title: string;
   description?: string;
-  icon?: React.ElementType;
+  icon?: React.ElementType | any;
   iconColorClass?: string;
   content?: React.ReactNode;
 }

@@ -1,26 +1,59 @@
 import { GeneratedJobOffer, StoredJobOffer } from "@/types";
 import { mockDashboardData } from "@/mocks";
 import { toast } from "sonner";
+import { HandleGeJobOffersType } from "../hooks/handleGeJobOffersType";
 
-const api = process.env.NEXT_PUBLIC_API_URL;
+const api_0 = process.env.NEXT_PUBLIC_API_URL_0;
+const api_2 = process.env.NEXT_PUBLIC_API_URL_2;
 
-export const getJobOffers = async (): Promise<StoredJobOffer[]> => {
-  await new Promise((resolve) => setTimeout(resolve, 1300));
-
+export const getJobOffers = async (): Promise<HandleGeJobOffersType> => {
   try {
-    const response = await fetch("/mocks/mockeListOfJobOffers.json");
+    const response = await fetch(`${api_2}/offers`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
 
-    const data: StoredJobOffer[] = await response.json();
+    const result = await response.json();
 
-    return data;
+    return result as HandleGeJobOffersType;
   } catch (error) {
-    console.error("Failed to fetch Job Offers, falling back to mocks:", error);
+    toast.error(`Failed to get Job Offers: ${error}`);
+    toast.warning(`Mocking Results`);
 
-    return mockDashboardData?.active_jobs ?? [];
+    return {
+      total: mockDashboardData?.active_jobs?.length ?? 0,
+      job_offers: mockDashboardData?.active_jobs ?? [],
+    } as HandleGeJobOffersType;
+  }
+};
+
+export const getJobOfferByID = async (_id: string): Promise<StoredJobOffer> => {
+  try {
+    const response = await fetch(`${api_2}/offers/${_id} `, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const result = await response.json();
+
+    return result as StoredJobOffer;
+  } catch (error) {
+    toast.error(`Failed to get Job Offer: ${error}`);
+    toast.warning(`Mocking Results`);
+
+    return mockDashboardData?.active_jobs[0];
   }
 };
 
@@ -30,7 +63,7 @@ export const generateJobOffer = async (
   try {
     toast("Job Offer request sent... Please wait");
 
-    const response = await fetch(`${api}/generate-job-offer`, {
+    const response = await fetch(`${api_0}/generate-job-offer`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +91,7 @@ export const saveJobOffer = async (
   data: GeneratedJobOffer
 ): Promise<StoredJobOffer | null> => {
   try {
-    const response = await fetch(`${api}/save-job-offer`, {
+    const response = await fetch(`${api_0}/save-job-offer`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
