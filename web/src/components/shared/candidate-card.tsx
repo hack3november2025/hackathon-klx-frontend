@@ -13,17 +13,17 @@ import { cn } from "@/src/lib/utils";
 
 function CandidateCard({ candidate }: { candidate: Candidate }) {
   const colorClass = useMemo(() => {
-    if (candidate.fit_score >= 90) return "text-green-600";
+    if (candidate.fit_score >= 90) return "text-[var(--success)]";
     if (candidate.fit_score > 50 && candidate.fit_score < 90)
-      return "text-yellow-600";
-    if (candidate.fit_score <= 50) return "text-red-600";
+      return "text-[var(--warning)]";
+    if (candidate.fit_score <= 50) return "text-[var(--destructive)]";
   }, [candidate]);
 
   const borderColorClass = useMemo(() => {
-    if (candidate.fit_score >= 90) return "border-green-600";
+    if (candidate.fit_score >= 90) return "border-[var(--success)]";
     if (candidate.fit_score > 50 && candidate.fit_score < 90)
-      return "border-yellow-600";
-    if (candidate.fit_score <= 50) return "border-red-600";
+      return "border-[var(--warning)]";
+    if (candidate.fit_score <= 50) return "border-[var(--destructive)]";
   }, [candidate]);
 
   return (
@@ -35,9 +35,9 @@ function CandidateCard({ candidate }: { candidate: Candidate }) {
     >
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-xl font-bold">{candidate.name}</CardTitle>
-        <div className="flex items-center space-x-2">
-          <Zap className="w-4 h-4 text-yellow-500" />
-          <span className="text-sm text-muted-foreground">
+          <div className="flex items-center space-x-2">
+          <Zap className="w-4 h-4 text-(--warning)" />
+          <span className="text-sm text-(--color-muted-foreground)">
             {candidate.current_title}
           </span>
         </div>
@@ -54,13 +54,13 @@ function CandidateCard({ candidate }: { candidate: Candidate }) {
 
           <Separator className="my-3" />
 
-          <p className="text-sm text-gray-600 italic line-clamp-2">
+          <p className="text-sm text-(--color-muted-foreground) italic line-clamp-2">
             {candidate.cv_summary}
           </p>
 
-          <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between text-xs text-gray-500">
+          <div className="mt-3 pt-3 border-t border-(--color-border) flex justify-between text-xs text-(--color-muted-foreground)">
             <span>
-              <Star className="w-3 h-3 inline mr-1 text-yellow-400" /> Exp:{" "}
+              <Star className="w-3 h-3 inline mr-1 text-(--warning)" /> Exp:{" "}
               {candidate.years_experience} yrs
             </span>
             <span>

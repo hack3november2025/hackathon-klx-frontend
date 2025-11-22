@@ -9,7 +9,9 @@ function JobCard({ job }: { job: StoredJobOffer }) {
     return (
       <>
         {" "}
-        <div className="text-2xl font-bold text-blue-600">{job.department}</div>
+        <div className="text-2xl font-bold text-(--color-primary)">
+          {job.department}
+        </div>
         <p className="text-xs text-muted-foreground mt-1">
           {job.location.city} ({job.employment_type})
         </p>

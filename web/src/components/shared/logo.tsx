@@ -1,3 +1,4 @@
+// /home/hack3-vl03-user/KLx/hackathon-klx-frontend/web/src/components/shared/logo.tsx
 import Link from "next/link";
 
 function Logo() {
@@ -14,14 +15,15 @@ function Logo() {
         <rect width="24" height="24" rx="6" fill="url(#g)" />
         <path
           d="M6 12h12"
-          stroke="#fff"
+          stroke="#fff" // Mantido branco para alto contraste
           strokeWidth="1.5"
           strokeLinecap="round"
         />
         <defs>
           <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#2563EB" />
-            <stop offset="100%" stopColor="#7C3AED" />
+            {/* NOVO GRADIENTE: Azul Secundário para Azul Primário */}
+            <stop offset="0%" stopColor="#3E9ACA" /> 
+            <stop offset="100%" stopColor="#48B5E0" />
           </linearGradient>
         </defs>
       </svg>

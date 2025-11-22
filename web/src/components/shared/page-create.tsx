@@ -33,14 +33,14 @@ function PageCreate({
         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl flex items-center">
           {/* Ícone opcional */}
           {Icon && (
-            <Icon className="w-9 h-9 mr-4 text-blue-600 shrink-0" />
+            <Icon className="w-9 h-9 mr-4 text-(--color-primary) shrink-0" />
           )}
           {title}
         </h1>
 
         {/* Descrição opcional */}
         {description && (
-          <p className="text-lg text-gray-500 dark:text-gray-400 max-w-3xl">
+          <p className="text-lg text-(--color-muted-foreground) max-w-3xl">
             {description}
           </p>
         )}

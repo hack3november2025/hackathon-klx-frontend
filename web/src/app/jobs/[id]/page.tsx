@@ -19,10 +19,10 @@ export default function JobDetailPage({ params }: { params: { id: string } }) {
     <div className="space-y-8 max-w-7xl mx-auto">
       <div className="flex items-center justify-between">
         <h1 className="text-4xl font-extrabold tracking-tight flex items-center">
-          <Briefcase className="w-8 h-8 mr-3 text-blue-600" />
+          <Briefcase className="w-8 h-8 mr-3 text-(--color-primary)" />
           Job Details: {job.job_title}
         </h1>
-        <Badge className="bg-green-500 hover:bg-green-600 text-white text-md py-1 px-3">
+        <Badge className="bg-(--success) hover:bg-(--success-foreground) text-(--success-foreground) text-md py-1 px-3">
           {job.status}
         </Badge>
       </div>
@@ -30,12 +30,12 @@ export default function JobDetailPage({ params }: { params: { id: string } }) {
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">Job Overview</CardTitle>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-(--color-muted-foreground)">
             Posted on: {job.created_at} | ID: {job.id}
           </p>
         </CardHeader>
         <CardContent>
-          <p className="text-gray-700">{job.job_summary}</p>
+          <p className="text-(--color-foreground)">{job.job_summary}</p>
           <div className="mt-4 flex space-x-4">
             <Badge variant="outline">{job.department}</Badge>
             <Badge variant="outline">
@@ -47,10 +47,10 @@ export default function JobDetailPage({ params }: { params: { id: string } }) {
       </Card>
 
       <h2 className="text-3xl font-bold tracking-tight flex items-center pt-4">
-        <UserCheck className="w-6 h-6 mr-2 text-green-600" />
+        <UserCheck className="w-6 h-6 mr-2 text-(--success)" />
         Top Candidates Match ({candidates.length} Found)
       </h2>
-      <p className="text-lg text-gray-500">
+      <p className="text-lg text-(--color-muted-foreground)">
         Candidates ranked by AI-generated Overall Candidate Fit Score (0-100%).
       </p>
 

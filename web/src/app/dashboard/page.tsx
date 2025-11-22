@@ -91,7 +91,7 @@ export default function DashboardPage() {
 
         <Link href="/job-offer" className="flex items-center">
           <CardComponent
-            className="w-full bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+            className="w-full bg-(--color-primary) text-background hover:bg-primary-hover transition-colors"
             title="Create New Job Offer"
             content={createNewJobContent}
           />

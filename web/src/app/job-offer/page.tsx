@@ -61,13 +61,13 @@ function JobOfferDisplay({
     <Card className="mt-8 shadow-xl">
       <CardHeader className="flex flex-row justify-between items-start">
         <div>
-          <CardTitle className="text-3xl font-bold text-blue-700">
+          <CardTitle className="text-3xl font-bold text-(--color-primary)">
             {jobOffer.job_title}
           </CardTitle>
           {jobOfferId && (
-            <p className="text-sm text-gray-500">Offer ID: {jobOfferId}</p>
+            <p className="text-sm text-(--color-muted-foreground)">Offer ID: {jobOfferId}</p>
           )}
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-(--color-muted-foreground)">
             {jobOffer.department} | {jobOffer.location.city} (
             {jobOffer.employment_type})
           </p>
@@ -95,7 +95,7 @@ function JobOfferDisplay({
           </Button>
           <Button
             onClick={onAccept}
-            className="bg-green-600 hover:bg-green-700 flex items-center"
+            className="bg-(--color-primary) hover:bg-(--color-hover-background) flex items-center text-(--color-primary-foreground)"
           >
             <CheckCircle className="w-4 h-4 mr-2" />
             Accept & Post
@@ -108,13 +108,13 @@ function JobOfferDisplay({
         {/* Summary */}
         <section>
           <h3 className="text-xl font-semibold mb-2">Role Summary</h3>
-          <p className="text-gray-700">{jobOffer.job_summary}</p>
+          <p className="text-(--color-foreground)">{jobOffer.job_summary}</p>
         </section>
 
         {/* Responsibilities */}
         <section>
           <h3 className="text-xl font-semibold mb-2">Key Responsibilities</h3>
-          <ul className="list-disc list-inside space-y-1 ml-4 text-gray-700">
+          <ul className="list-disc list-inside space-y-1 ml-4 text-(--color-foreground)">
             {jobOffer.key_responsibilities.map((resp, index) => (
               <li key={index}>{resp}</li>
             ))}
@@ -127,15 +127,11 @@ function JobOfferDisplay({
             <h3 className="text-xl font-semibold mb-2">Required Skills</h3>
             <div className="flex flex-wrap gap-2">
               {jobOffer.required_skills_keywords.map((skill) => (
-                <Badge
-                  key={skill}
-                  variant="default"
-                  className="bg-blue-100 text-blue-800 hover:bg-blue-200"
-                >
+                  <Badge key={skill} variant="default" className="bg-(--color-accent) text-(--color-accent-foreground) hover:bg-(--color-hover-background)">
                   {skill}
                 </Badge>
               ))}
-              <p className="text-sm text-gray-500 mt-2 w-full">
+              <p className="text-sm text-(--color-muted-foreground) mt-2 w-full">
                 {jobOffer.required_skills.join(" / ")}
               </p>
             </div>
@@ -144,15 +140,11 @@ function JobOfferDisplay({
             <h3 className="text-xl font-semibold mb-2">Preferred Skills</h3>
             <div className="flex flex-wrap gap-2">
               {jobOffer.preferred_skills_keywords.map((skill) => (
-                <Badge
-                  key={skill}
-                  variant="outline"
-                  className="text-gray-600 border-gray-300"
-                >
+                <Badge key={skill} variant="outline" className="text-(--color-muted-foreground) border-(--color-border)">
                   {skill}
                 </Badge>
               ))}
-              <p className="text-sm text-gray-500 mt-2 w-full">
+              <p className="text-sm text-(--color-muted-foreground) mt-2 w-full">
                 {jobOffer.preferred_skills.join(" / ")}
               </p>
             </div>
@@ -162,7 +154,7 @@ function JobOfferDisplay({
         {/* Culture */}
         <section>
           <h3 className="text-xl font-semibold mb-2">Culture & Values</h3>
-          <div className="space-y-2 text-sm text-gray-700">
+          <div className="space-y-2 text-sm text-(--color-foreground)">
             {Object.entries(jobOffer.company_values_and_culture).map(
               ([key, value]) => (
                 <p key={key}>
@@ -177,7 +169,7 @@ function JobOfferDisplay({
         </section>
 
         {/* Encouragement */}
-        <div className="p-4 bg-yellow-50 border-l-4 border-yellow-500 text-yellow-700">
+        <div className="p-4 bg-(--warning) border-l-4 border-(--warning-foreground) text-(--warning-foreground)">
           <p>{jobOffer.application_encouragement}</p>
         </div>
       </CardContent>
